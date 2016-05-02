@@ -40,7 +40,7 @@
 #define Benough 14
 #define GMAPPING 1
 #define NORIEGL 1
-#define LASER_INVERTED false
+//#define LASER_INVERTED false
 #define LASER_POINTS 720
 #define ROOM_POINTS_SIZE 721
 #define GRID_MAP_OCCUPANCY_TRESHOLD 1
@@ -2552,9 +2552,9 @@ Razlomljena_Duzina* nova_karta32;  //karta za vektorizaciju
 
 
 
-  ros::Subscriber sub2 = nh.subscribe("/lidar/scan", 1, laser);
+//  ros::Subscriber sub2 = nh.subscribe("/lidar/scan", 1, laser);
 
-  //ros::Subscriber sub3 = nh.subscribe("/base_scan", 10, laser);
+  ros::Subscriber sub3 = nh.subscribe("/base_scan", 10, laser);
   //ros::Subscriber sub6 = nh.subscribe("room", 1000, laser2_room);
   ros::Subscriber sub6 = nh.subscribe("/lidar/scan", 1, laser2_room);
   //ros::Subscriber sub4 = nh.subscribe("thermostat", 1000, laserRiegel);
