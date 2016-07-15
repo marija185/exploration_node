@@ -66,7 +66,7 @@ extern Planner *PL;
 //globalne varijable za callbackove
 int br_pokretanja=-1; //koliko puta je mjerio
 float v, omega;
-float ranges[730];
+float ranges[2000];
 float ranges2[800];
 float ranges3[800];
 
@@ -712,7 +712,7 @@ void laser3D (const sensor_msgs::PointCloudConstPtr& oldpoint){
 	ofstream dpoints;
 	ofstream scan_file;
 	string pomstr="./df/scan"+IntToString(br_pokretanja)+".3d";           //points for 3dexploration
-	string scan_show="./3dtk_scan/scan00"+IntToString(br_pokretanja)+".3d";  // points for 3dtk
+	string scan_show="./3dtk_scan/scan00"+IntToString(br_pokretanja)+".3d";  // points for 3dtk 6dslam
 
         dpoints.open(pomstr.c_str());
         scan_file.open(scan_show.c_str());
@@ -2529,7 +2529,7 @@ Razlomljena_Duzina* nova_karta32;  //karta za vektorizaciju
   //int br_GLp=0,br_GHp=0,ki,kj;
   int br_duzina=0;
   int br_duzina2=0;
-  Tocka *ocitanja = new Tocka[741];
+  Tocka *ocitanja = new Tocka[2000];
   Tocka *ocitanja2 = new Tocka[741];
   int indeks_ocitanja=0;
   int old_path_length=0;
@@ -2556,7 +2556,7 @@ Razlomljena_Duzina* nova_karta32;  //karta za vektorizaciju
 
   ros::Subscriber sub3 = nh.subscribe("/base_scan", 10, laser);
   //ros::Subscriber sub6 = nh.subscribe("room", 1000, laser2_room);
-  ros::Subscriber sub6 = nh.subscribe("/lidar/scan", 1, laser2_room);
+  //ros::Subscriber sub6 = nh.subscribe("/lidar/scan", 1, laser2_room);
   //ros::Subscriber sub4 = nh.subscribe("thermostat", 1000, laserRiegel);
   //subscriber for pointCloud
   //ros::Subscriber sub5 = nh.subscribe("/3D_pointcloud",1, laser3D);
@@ -2841,7 +2841,7 @@ Razlomljena_Duzina* nova_karta32;  //karta za vektorizaciju
 
 
 					  // always run NBV_explore, if promjena==0 && promjena==1
-					  explore_2D(Rfind.gpcpoly, false,sobni2,explore_in_3D.still_room,najbolji_Hp2, nova_karta32,br_duzina_nova2,karta,gpc_globalni_poligon2, &br_duzina2, G, fi,Xp2, Pg,&nGMP2[0], globskocni2, skocniIzMaxRange,novi_polygon2a,promjena);
+					  //explore_2D(Rfind.gpcpoly, false,sobni2,explore_in_3D.still_room,najbolji_Hp2, nova_karta32,br_duzina_nova2,karta,gpc_globalni_poligon2, &br_duzina2, G, fi,Xp2, Pg,&nGMP2[0], globskocni2, skocniIzMaxRange,novi_polygon2a,promjena);
 					  explore_2D(Rfind.gpcpoly, true ,sobni, explore_in_3D.still_room, najbolji_Hp, nova_karta3,br_duzina_nova,karta,gpc_globalni_poligon, &br_duzina , G, fi,Xp, Pg,&nGMP[0], globskocni, skocniIzMaxRange,novi_polygon,promjena);
 
 
@@ -2973,11 +2973,10 @@ Razlomljena_Duzina* nova_karta32;  //karta za vektorizaciju
 
 					  SnimiSkocneGoal2("./Nocitanja/globskocnigoal"+IntToString(indeks_ocitanja),globskocni);
 					  // snimanje ocitanja
-					  Snimi_ocitanja("./Nocitanja/podaci"+IntToString(indeks_ocitanja),&ocitanja[0], &G, &fi,Px,Py,Pth);
+//					  Snimi_ocitanja("./Nocitanja/podaci"+IntToString(indeks_ocitanja),&ocitanja[0], &G, &fi,Px,Py,Pth);
 
 
-					  //WH->Logmeasure(indeks_ocitanja);
-			  		  //WH->old_cycle=WH->cycle_number;
+					  WH->Logmeasure(indeks_ocitanja);
 
 
 					  string poz2="./Nocitanja/goal"+IntToString(indeks_ocitanja);

@@ -25,6 +25,6 @@ compiling:
 catkin_make
 
 run the simulation
-todo - finish!
-
+roslaunch movingobstaclesrhc galerijatest.launch
+gdb bin/explore
 

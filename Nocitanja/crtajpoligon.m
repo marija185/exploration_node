@@ -1,11 +1,45 @@
 % figure(1)
 metric=0.001; 
-%  footprint=[0.17, 0.27;-0.15, 0.27;-0.48, 0.17;-0.48,-0.17;-0.15, -0.27;0.17, -0.27;0.17, 0.27];
-  footprint=[0.26/2, 0.52/2;-0.15, 0.52/2;-0.48, 0.17;-0.48,-0.17;-0.15, -0.52/2;0.26/2, -0.52/2; 0.26/2 -0.102/2; (0.12+0.105/2) -0.102/2; (0.12+0.105/2) 0.102/2; 0.26/2 0.102/2; 0.26/2, 0.52/2]; 
+%   footprint=[0.17, 0.27;-0.15, 0.27;-0.48, 0.17;-0.48,-0.17;-0.15, -0.27;0.17, -0.27;0.17, 0.27];
+%   footprint=[0.26/2, 0.52/2;-0.15, 0.52/2;-0.48, 0.17;-0.48,-0.17;-0.15, -0.52/2;0.26/2, -0.52/2; 0.26/2 -0.102/2; (0.12+0.105/2) -0.102/2; (0.12+0.105/2) 0.102/2; 0.26/2 0.102/2; 0.26/2, 0.52/2]; 
+%husky:  
+footprint=[-0.5, -0.35; 0.5 -0.35; 0.5 0.35; -0.5 0.35; -0.5 -0.35];
  udaljenosti=sqrt(footprint(:,1).^2+footprint(:,2).^2);
  x_circle=[];
  y_circle=[];
 brojac=0;
+
+ax=[];ay=[];trajx=[];trajy=[];
+WH_globalna_putanja_x=load('../logger/robot_globalna_putanja_x.dat');
+WH_globalna_putanja_y=load('../logger/robot_globalna_putanja_y.dat');
+duljina_wit_puta_um=load('../logger/replan_putanja.dat');
+duljina_wit_puta_um(1)=0;
+
+
+for ii=1:length(WH_globalna_putanja_x)
+    if (duljina_wit_puta_um(ii)==2 || ii==length(WH_globalna_putanja_x))
+        if (ii==length(WH_globalna_putanja_x))
+            trajx=[trajx WH_globalna_putanja_x(ii)];
+            trajy=[trajy WH_globalna_putanja_y(ii)];
+        end
+        ax=[trajx]
+        ay=[trajy]
+        filename=strcat('podacitraj',mat2str(brojac),'.mat');
+        save(filename,'ax','ay');
+        brojac=brojac+1;
+%         ax=[];
+%         load(filename)
+%         plot(((ax))*metric,((ay))*metric,'m.-','LineWidth',2);
+%         pause
+        trajx=[];trajy=[];
+    end
+    trajx=[trajx WH_globalna_putanja_x(ii)];
+    trajy=[trajy WH_globalna_putanja_y(ii)];
+
+end
+
+brojac=0;
+
 while(1)
 figure
 hold on
@@ -69,7 +103,7 @@ fid=fopen(filename);
         if (fid~=-1)
             fclose(fid);
             laserr=load(filename);
-plot(laserr(:,1)*metric,laserr(:,2)*metric,'g.');
+% plot(laserr(:,1)*metric,laserr(:,2)*metric,'g.');
         end
         
         filename=strcat('podacisick',mat2str(brojac));
@@ -77,18 +111,20 @@ fid=fopen(filename);
         if (fid~=-1)
             fclose(fid);
             laser=load(filename);
-%plot(laser(:,1)*metric,laser(:,2)*metric,'k.');
+plot(laser(:,1)*metric,laser(:,2)*metric,'k.');
         end
 
-   filename=strcat('podacitraj',mat2str(brojac));
-fid=fopen(filename);
-        if (fid~=-1)
-            fclose(fid);
-            traj=load(filename);
-            if (isempty(traj)~=1)
-plot(traj(:,1)*metric,traj(:,2)*metric,'Color',[0 1 0]);
-            end
-        end
+   filename=strcat('podacitraj',mat2str(brojac),'.mat');
+   load(filename)
+   plot(((ax))*metric,((ay))*metric,'g.-','LineWidth',2);
+% fid=fopen(filename);
+%         if (fid~=-1)
+%             fclose(fid);
+%             traj=load(filename);
+%             if (isempty(traj)~=1)
+% plot(traj(:,1)*metric,traj(:,2)*metric,'Color',[0 1 0]);
+%             end
+%         end
 
         filename=strcat('pozicija',mat2str(brojac));
 fid=fopen(filename);
