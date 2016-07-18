@@ -34,5 +34,5 @@ include_directories(
   include
 )
 
-add_executable(explore src/mainspoje.cpp src/tocka.cpp src/pravac.cpp src/duzina.cpp src/razlomduzina.cpp src/gpc2.cpp src/cudo.cpp src/room.cpp src/explore3D.cpp)
+add_executable(explore src/mainspoj.cpp src/tocka.cpp src/pravac.cpp src/duzina.cpp src/razlomduzina.cpp src/gpc2.cpp src/cudo.cpp src/room.cpp src/explore3D.cpp)
 target_link_libraries(explore newmat ${movingobstaclesrhc_LIBRARIES} ${cspacevoroandrea_LIBRARIES} ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
