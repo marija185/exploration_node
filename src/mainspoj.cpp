@@ -2554,7 +2554,7 @@ Razlomljena_Duzina* nova_karta32;  //karta za vektorizaciju
 
 //  ros::Subscriber sub2 = nh.subscribe("/lidar/scan", 1, laser);
 
-  ros::Subscriber sub3 = nh.subscribe("/base_scan", 10, laser);
+  ros::Subscriber sub3 = nh.subscribe("/lidar/scan", 10, laser);
   //ros::Subscriber sub6 = nh.subscribe("room", 1000, laser2_room);
   //ros::Subscriber sub6 = nh.subscribe("/lidar/scan", 1, laser2_room);
   //ros::Subscriber sub4 = nh.subscribe("thermostat", 1000, laserRiegel);
@@ -2654,7 +2654,6 @@ Razlomljena_Duzina* nova_karta32;  //karta za vektorizaciju
 
 
 					  // Ako nije ukljucen AMCL stavljamo fiksnu vrijednost matrice nesigurnosti
-					  Px = 0.005;
 					  Py = 0.005;
 					  Pth = 0.01;
 
@@ -2734,8 +2733,8 @@ Razlomljena_Duzina* nova_karta32;  //karta za vektorizaciju
 					  try{
 					      now = ros::Time::now();
 
-					     listener->waitForTransform("map", "base_laser_link",now, ros::Duration(4.0));
-					     listener->lookupTransform("map", "base_laser_link", now, transform);
+					     listener->waitForTransform("map", "laser",now, ros::Duration(4.0));
+					     listener->lookupTransform("map", "laser", now, transform);
 					    }
 						  catch (tf::TransformException ex){
 							  ROS_ERROR("%s",ex.what());
@@ -2760,15 +2759,15 @@ Razlomljena_Duzina* nova_karta32;  //karta za vektorizaciju
 
 	printf("update_karte: vectorizing start\n");
 	br_pokretanja++;
-	nova_karta3 =  vektoriziraj(&ocitanja[0],Xp, &br_duzina_nova, 540);  // in the laser coordinate frame, for 2D exploration
+	nova_karta3 =  vektoriziraj(&ocitanja[0],Xp, &br_duzina_nova, 1080);  // in the laser coordinate frame, for 2D exploration
 
 	// save detected lines with time stamp
 
 	Save_With_Time_Stamp("map_lines_in_local_frame" +IntToString(br_pokretanja)+".txt", nova_karta3, br_duzina_nova);
 
 	Snimi ("map" +IntToString(br_pokretanja)+".m", nova_karta3,br_duzina_nova);
-	nova_karta32 =  vektoriziraj(&ocitanja2[0],Xp2, &br_duzina_nova2, 540); // in the laser coordinate frame, for room detection
-    Snimi_ocitanja("laser_scan_room", ocitanja2, &G, &fi, 1, 1, 1);
+	//nova_karta32 =  vektoriziraj(&ocitanja2[0],Xp2, &br_duzina_nova2, 540); // in the laser coordinate frame, for room detection
+    //Snimi_ocitanja("laser_scan_room", ocitanja2, &G, &fi, 1, 1, 1);
     Snimi_ocitanja("laser_scan"+IntToString(br_pokretanja)+".txt", ocitanja, &G, &fi, 1, 1, 1);
 	printf("update_karte: vectorized\n");
         Snimi ("vectorized_laser_scan" +IntToString(br_pokretanja)+".m", nova_karta3,br_duzina_nova);
@@ -2820,7 +2819,7 @@ Razlomljena_Duzina* nova_karta32;  //karta za vektorizaciju
           dt_pose << -100*G.vratiY() <<" " << 0 << " " <<100*G.vratiX() <<"\n"<<0 << " " << -fi << " " << 0 << endl;
 	  upis.close();
           dt_pose.close();
-	Snimi ("skriptalok.m", nova_karta32,br_duzina_nova);
+	//Snimi ("skriptalok.m", nova_karta32,br_duzina_nova);
 						  Snimi ("skriptaNS.m", karta,br_duzina);
 
 					  }  // promjena==1

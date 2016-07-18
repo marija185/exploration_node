@@ -13,7 +13,7 @@ ax=[];ay=[];trajx=[];trajy=[];
 WH_globalna_putanja_x=load('../logger/robot_globalna_putanja_x.dat');
 WH_globalna_putanja_y=load('../logger/robot_globalna_putanja_y.dat');
 duljina_wit_puta_um=load('../logger/replan_putanja.dat');
-duljina_wit_puta_um(1)=0;
+% duljina_wit_puta_um(1)=0;
 
 
 for ii=1:length(WH_globalna_putanja_x)
@@ -22,8 +22,8 @@ for ii=1:length(WH_globalna_putanja_x)
             trajx=[trajx WH_globalna_putanja_x(ii)];
             trajy=[trajy WH_globalna_putanja_y(ii)];
         end
-        ax=[trajx]
-        ay=[trajy]
+        ax=[trajx];
+        ay=[trajy];
         filename=strcat('podacitraj',mat2str(brojac),'.mat');
         save(filename,'ax','ay');
         brojac=brojac+1;
@@ -37,7 +37,7 @@ for ii=1:length(WH_globalna_putanja_x)
     trajy=[trajy WH_globalna_putanja_y(ii)];
 
 end
-
+brtraj=brojac-1;
 brojac=0;
 
 while(1)
@@ -209,6 +209,9 @@ plot(poz(1)*metric,poz(2)*metric,'ro');
 %         print(gcf,'-dpng',mat2str(brojac+100));
         
 brojac=brojac+1
+if brojac>brtraj
+    break
+end
 % break
 % hold off
 end

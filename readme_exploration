@@ -25,6 +25,10 @@ compiling:
 catkin_make
 
 run the simulation
-roslaunch movingobstaclesrhc galerijatest.launch
+roslaunch movingobstaclesrhc galerijatest.launch (facelocalization)
+roslaunch movingobstaclesrhc galerijatestgmapping.launch (gmapping)
 gdb bin/explore
+
+run husky robot
+roslaunch movingobstaclesrhc murki.launch
 

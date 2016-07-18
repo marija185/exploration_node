@@ -27,7 +27,7 @@ using namespace NEWMAT;              // access NEWMAT namespace
 #include <fstream>
 #include <sstream>  
 #include <vector>
-# define BR_OCITANJA 570
+# define BR_OCITANJA 1080
 # define DISK 70
 # define maxRUPA 100 
 # define maxRUPA2 15 
@@ -336,7 +336,12 @@ IplImage* napravi(vector<Tocka> &ocitanja, Tocka Xp)
 	// Pomice dobivena ocitanja za xp, yp
 		//ocitanja[i] = ocitanja[i] + *Xp;
 	// Stvara mrezastu kartu zauzetosti 
-		cvSet2D(src,int(((ocitanja[i]+Xp).vratiX())*DISK),int(((ocitanja[i]+Xp).vratiY())*DISK),s);   
+		cout << "koordinate u slici " <<  int(((ocitanja[i]+Xp).vratiX())*DISK)<<" " <<int(((ocitanja[i]+Xp).vratiY())*DISK)<<endl;
+		if (int(((ocitanja[i]+Xp).vratiX())*DISK)<0 || int(((ocitanja[i]+Xp).vratiY())*DISK)<0) {
+			cout << "ocitanje manje od nule "<< endl;}
+		cvSet2D(src,int(((ocitanja[i]+Xp).vratiX())*DISK),int(((ocitanja[i]+Xp).vratiY())*DISK),s);
+
+		//cvSet2D(src,1,1,s);
 	};
 	return src;
 }
@@ -533,7 +538,7 @@ Tocka* razvrstaj(Duzina AB, vector<Tocka> & ocitanja, int *velicina,int br_tocak
 // Tijekom rada postavlja polje razvrstane na 1 (vraca pomocne fje razvrstaj1)); 
 // Vraca velicinu polja koje treba rezervirati preko *velicina		
 	//int lagano=br_tocaka;
-        int razvrstane[720]={0};
+        int razvrstane[2000]={0};
         //int *razvrstane= new int[720];
 	int i,brojac=0;
 //	AB.vratiPravac().print();
@@ -653,6 +658,10 @@ double pocSize=0;
 	//Tocka ocitanja[361];
 	//Tocka Xp;
 	src=napravi(Ocitanja1,Xp);
+	//cv::namedWindow( "Display window", cv::WINDOW_AUTOSIZE );// Create a window for display.
+	    //cv::imshow( "Display window", src );                   // Show our image inside it.
+	    //cvShowImage("Dispay window", src);
+	    //cvWaitKey(0);
 	SrcSize = cvGetSize(src);
 	// Paznja dobivamo stvarna ocitanja i pomaknute diskretizirane tocke za PHT (Zbog OpenCV-a) 	
 	//CvSeq* lines = 0;
@@ -758,6 +767,7 @@ double pocSize=0;
 		};
 */
 	for (i = 0;i<lines->total;i++)
+	//for (i = 0;i<10;i++)
 		{
 			CvPoint* line = (CvPoint*)cvGetSeqElem(lines,i);
 			Duzina linije=Duzina(Tocka(double(line[0].y)/DISK,double(line[0].x)/DISK)+Xp*(-1),Tocka(double(line[1].y)/DISK,double(line[1].x)/DISK)+Xp*(-1));
