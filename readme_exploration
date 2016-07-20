@@ -32,3 +32,5 @@ gdb bin/explore
 run husky robot
 roslaunch movingobstaclesrhc murki.launch
 
+roslaunch catkin_amor_slam catkin_default_sim.launch
+

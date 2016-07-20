@@ -15,6 +15,12 @@ WH_globalna_putanja_y=load('../logger/robot_globalna_putanja_y.dat');
 duljina_wit_puta_um=load('../logger/replan_putanja.dat');
 % duljina_wit_puta_um(1)=0;
 
+origin=load('../logger/origin.dat');
+Map_Home_x=origin(1);
+Map_Home_y=origin(2);
+cell=load('../logger/cell_size.dat');
+
+
 
 for ii=1:length(WH_globalna_putanja_x)
     if (duljina_wit_puta_um(ii)==2 || ii==length(WH_globalna_putanja_x))
@@ -183,6 +189,17 @@ fid=fopen(filename);
 plot(poz(1)*metric,poz(2)*metric,'ro');
         end
         
+filename=strcat('negpozicija',mat2str(brojac));
+fid=fopen(filename);
+        if (fid~=-1)
+            fclose(fid);
+            poz=load(filename);
+          if ~isempty(poz)  
+plot((poz(1)*cell+Map_Home_x)*metric,(poz(2)*cell+Map_Home_y)*metric,'kd');
+plot((poz(3)*cell+Map_Home_x)*metric,(poz(4)*cell+Map_Home_y)*metric,'bd');
+          end
+        end
+    
     end
         xlabel('x [m]')
         ylabel('y [m]')
